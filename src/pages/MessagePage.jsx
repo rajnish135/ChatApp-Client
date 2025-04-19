@@ -11,6 +11,8 @@ import Loading from '../components/Loading';
 import wallapaper from '../assets/wallapaper.jpeg';
 import { IoMdSend } from 'react-icons/io';
 import moment from 'moment';
+import { IoMdCheckmark } from "react-icons/io";
+import { PiChecksBold } from "react-icons/pi";
 
 const MessagePage = () => {
   const params = useParams();
@@ -40,18 +42,18 @@ const MessagePage = () => {
     if (socketConnection) {
       
       socketConnection.emit('message-page', params.userId);
-      
-      socketConnection.emit('seen', params.userId);
-
+  
       const handleMessageUser = (payload) => {
         setUserData(payload);
       };
 
       socketConnection.on('message-user', handleMessageUser);
 
-      const handleConversationMessages = (data) => {
-        setAllmessages(data);
-      };
+      const handleConversationMessages = ({targetUserId,messages}) => {
+       // Only set messages if they're for THIS conversation
+      if (targetUserId === params.userId || targetUserId === user._id) {
+        setAllmessages(messages);
+      } }
 
       socketConnection.on('message', handleConversationMessages);
 
@@ -59,17 +61,29 @@ const MessagePage = () => {
         socketConnection.off('message-user', handleMessageUser);
       };
     }
-  }, [socketConnection, params, user]);
+  }, [socketConnection, params, user,userData?._id]);
+
+
+  //useEffect to handle seen messages 
+    useEffect(() => {
+      if (socketConnection && allMessages.length > 0) {
+        
+        // Check if the last message is from the other user and unseen
+        const lastMsg = allMessages[allMessages.length - 1];
+
+        if (lastMsg.senderId === params.userId && !lastMsg.seen) {
+          socketConnection.emit('seen', params.userId);
+        }
+      }
+    }, [allMessages, socketConnection, params.userId]);
+
 
   // Move to the latest message
   useEffect(() => {
-    if (currentMessage.current) {
+    if (currentMessage.current ) {
       currentMessage.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
-  }, [allMessages
-
-    
-  ]);
+  }, [allMessages]);
 
   // Update online/offline status
   useEffect(() => {
@@ -229,7 +243,7 @@ const MessagePage = () => {
         
         <div className="flex flex-col gap-2 py-2 mx-2" ref={currentMessage}>
           
-          { allMessages?.map( (msg, index) => (
+          { allMessages.length>0 && allMessages?.map( (msg, index) => (
             <div
               key={index}
               className={`p-1 py-1 rounded w-fit max-w-[280px] md:max-w-sm lg:max-w-md ${
@@ -253,9 +267,27 @@ const MessagePage = () => {
                   controls
                 />
               )}
+               
+              <p className="px-2 flex items-center gap-1.5">
+                  
+                  {msg.text}
 
-              <p className="px-2">{msg.text}</p>
+                  {
+                    msg.seen && params.userId !== msg.senderId ? 
+                     (
+                    <PiChecksBold className='text-blue-500'/>  
+                     ) : 
+                    (userData.online && params.userId !== msg.senderId) ? 
+                        (
+                        <PiChecksBold/>  
+                        ) : 
+                          (
+                            params.userId !== msg.senderId && <IoMdCheckmark/>
+                          )
+                  }
 
+              </p>
+          
               <p className="text-xs ml-auto w-fit">
                 {moment(msg.createdAt).format('hh:mm')}
               </p>

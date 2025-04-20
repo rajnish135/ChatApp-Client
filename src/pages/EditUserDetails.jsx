@@ -49,14 +49,12 @@ const EditUserDetails = ({ onClose, user }) => {
       const formData = new FormData();
       formData.append('name', data.name);
       if (data.file) formData.append('profile_pic', data.file);
+      const token =  localStorage.getItem('token')
 
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/update-user`,
         formData,
         {
-           auth: {
-            token: localStorage.getItem('token'),
-          },
           headers: {
             Authorization: `Bearer ${token}`,
           },

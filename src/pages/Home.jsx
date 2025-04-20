@@ -14,10 +14,8 @@ const Home = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const socketConnection = io(`${import.meta.env.VITE_BACKEND_URL}/`, {
-      auth: {
-        token: localStorage.getItem('token'),
-      },
+  const token = localStorage.getItem('token')
+      const socketConnection = io(`${import.meta.env.VITE_BACKEND_URL}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

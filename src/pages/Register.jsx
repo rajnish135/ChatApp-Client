@@ -49,18 +49,25 @@ const RegisterPage = () => {
         formData.append("password", password);
         formData.append("profile_pic", uploadPhoto);
 
-        res = await axios.post(import.meta.env.VITE_BACKEND_URL + `/api/register`, formData, {
+        res = await axios.post(import.meta.env.VITE_BACKEND_URL + `/api/register`, formData,  {
+          auth: {
+            token: localStorage.getItem('token'),
+          },
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-      } else {
+      } 
+      else {
         res = await axios.post(import.meta.env.VITE_BACKEND_URL + `/api/register`, {
           name,
           email,
           password,
           profile_pic: ""
-        }, {
+        },{
+          auth: {
+            token: localStorage.getItem('token'),
+          },
           headers: {
             Authorization: `Bearer ${token}`,
           },

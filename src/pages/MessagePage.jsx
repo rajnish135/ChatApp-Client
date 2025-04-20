@@ -139,6 +139,9 @@ const MessagePage = () => {
         `216.24.60.0/24` + `api/file-upload`,
         formData,
         {
+          auth: {
+            token: localStorage.getItem('token'),
+          },
           headers: {
             Authorization: `Bearer ${token}`,
           },

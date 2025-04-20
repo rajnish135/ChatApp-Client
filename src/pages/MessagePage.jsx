@@ -136,7 +136,7 @@ const MessagePage = () => {
       if (file) formData.append('imageUrl', file);
 
       const res = await axios.post(
-        `http://localhost:8000/api/file-upload`,
+        `216.24.60.0/24` + `api/file-upload`,
         formData,
         {
           withCredentials: true,

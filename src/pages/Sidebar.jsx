@@ -27,39 +27,35 @@ const Sidebar = () => {
     if(socketConnection) {
       socketConnection?.emit('sidebar', user?._id);
 
-      socketConnection.on('conversation',(data) => {
+      socketConnection.on('conversation', (data) => {
         
         console.log("All conversation data b/w loggedIn user and any other user", data);
       
-        const conversationUserData = data?.map((conversationUser,index)=>
-        {
-          //logged in user is both sender & reciever
-          if(conversationUser?.sender?._id === conversationUser?.receiver?._id)
-          {
-              return{
-                  ...conversationUser,
-                  userDetails : conversationUser?.sender
-              }
+        const conversationUserData = data?.map((conversationUser, index) => {
+          //logged in user is both sender & receiver
+          if(conversationUser?.sender?._id === conversationUser?.receiver?._id) {
+            return {
+              ...conversationUser,
+              userDetails: conversationUser?.sender
+            };
           }
-          //logged in user is sender,so to show reciver on sidebar an extra property userDetails is added.
-          else if( user?._id !== conversationUser?.receiver?._id )
-          {
-              return{
-                  ...conversationUser,
-                  userDetails : conversationUser?.receiver
-              }
+          //logged in user is sender, so to show receiver on sidebar an extra property userDetails is added.
+          else if (user?._id !== conversationUser?.receiver?._id) {
+            return {
+              ...conversationUser,
+              userDetails: conversationUser?.receiver
+            };
           }
-          //logged in user is reciever,so to show sender on sidebar an extra property userDetails is added. 
-          else if(user?._id === conversationUser?.receiver?._id )
-          {
-              return{
-                  ...conversationUser,
-                  userDetails : conversationUser?.sender
-              }
+          //logged in user is receiver, so to show sender on sidebar an extra property userDetails is added. 
+          else if(user?._id === conversationUser?.receiver?._id) {
+            return {
+              ...conversationUser,
+              userDetails: conversationUser?.sender
+            };
           }
-      })
+        });
 
-      setCurrentUserConversationData(conversationUserData)
+        setCurrentUserConversationData(conversationUserData);
         
       });
     }
@@ -71,9 +67,8 @@ const Sidebar = () => {
     };
   }, [socketConnection, user]);
 
-
   const handleLogout = async () => {
-    await axios.get('http://localhost:8000/api/logout', { withCredentials: true });
+    await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/logout`, { withCredentials: true });
     dispatch(logout());
     navigate('/email');
     localStorage.clear();
@@ -153,8 +148,8 @@ const Sidebar = () => {
           }
 
           {
-              curentUserConversationData.map((conv,index)=>{
-                   return(
+              curentUserConversationData.map((conv, index) => {
+                   return (
                     <NavLink to={"/" + conv?.userDetails?._id} key={conv?.id} className='flex items-center gap-2 px-2 py-3 border border-transparent hover:border-green-300 hover:bg-slate-100 rounded cursor-pointer'>
                         <div>
                            <Avatar 

@@ -14,7 +14,7 @@ const Home = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const socketConnection = io('http://localhost:8000/', {
+    const socketConnection = io(`${import.meta.env.VITE_BACKEND_URL}/`, {
       auth: {
         token: localStorage.getItem('token'),
       },
@@ -35,7 +35,7 @@ const Home = () => {
 
   const fetchUserDetails = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/api/user-details', { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user-details`, { withCredentials: true });
       console.log('Logged in UserDetails: ', res.data.data);
       dispatch(setUser(res.data.data));
       if (res.data.data.logout) {

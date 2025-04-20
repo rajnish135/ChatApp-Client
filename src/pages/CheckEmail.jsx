@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FaUserTie } from "react-icons/fa";
 
+
 const CheckEmail = () => {
   const [data, setData] = useState({
     email: "",
@@ -21,42 +22,37 @@ const CheckEmail = () => {
   };
 
   const handleSubmit = async (e) => {
-
-    //Only sending email through form data using multer().none in backend
     const formData = new FormData();
     formData.append("email", data.email);
 
     e.preventDefault();
 
     try {
+      console.log("backend api", import.meta.VITE_BACKEND_URL)
       const res = await axios.post(
-        "http://localhost:8000/api/email",
+        `${import.meta.env.VITE_BACKEND_URL}/api/email`,
         formData,
         {
           withCredentials: true,
         }
       );
-      
-      // console.log("Response of email is : ",res);
 
       toast.success("User Email verified successfully!");
 
-      //CLEARING THE formdata AFTER SUCCESSFUL LOGIN
       if (res.data.success) {
         setData({
           email: "",
         });
       }
 
-      navigate("/password",{
+      navigate("/password", {
         state: res?.data,
       });
-    } 
-    catch (error) 
-    {
+    } catch (error) {
       toast.error("Incorrect Email. Check console ");
     }
   };
+
   return (
     <div className="mt-5">
       <div className="bg-white w-full max-w-sm overflow-hidden rounded p-4 mx-auto">

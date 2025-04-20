@@ -12,7 +12,7 @@ const Logout = () => {
 
       try {
 
-        await axios.get("http://localhost:8000/api/logout",
+        await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/logout`,
           {},
           { withCredentials: true }
         );

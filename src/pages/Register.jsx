@@ -49,11 +49,11 @@ const RegisterPage = () => {
         formData.append("password", password);
         formData.append("profile_pic", uploadPhoto);
 
-        res = await axios.post(import.meta.env.VITE_BACKED_URL + `/api/register`, formData, {
+        res = await axios.post(import.meta.env.VITE_BACKEND_URL + `/api/register`, formData, {
           withCredentials: true
         });
       } else {
-        res = await axios.post(import.meta.env.VITE_BACKED_URL + `/api/register`, {
+        res = await axios.post(import.meta.env.VITE_BACKEND_URL + `/api/register`, {
           name,
           email,
           password,

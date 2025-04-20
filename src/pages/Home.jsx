@@ -35,7 +35,14 @@ const Home = () => {
 
   const fetchUserDetails = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user-details`, { withCredentials: true });
+      const token = localStorage.getItem("token") || "";
+
+const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user-details`, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+      console.log("res", res)
       console.log('Logged in UserDetails: ', res.data.data);
       dispatch(setUser(res.data.data));
       if (res.data.data.logout) {

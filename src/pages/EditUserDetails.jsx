@@ -54,11 +54,8 @@ const EditUserDetails = ({ onClose, user }) => {
         `${import.meta.env.VITE_BACKEND_URL}/api/update-user`,
         formData,
         {
-          auth: {
-            token: localStorage.getItem('token'),
-          },
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );

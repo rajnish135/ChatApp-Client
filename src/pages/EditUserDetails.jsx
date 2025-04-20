@@ -49,6 +49,7 @@ const EditUserDetails = ({ onClose, user }) => {
       const formData = new FormData();
       formData.append('name', data.name);
       if (data.file) formData.append('profile_pic', data.file);
+      
       const token =  localStorage.getItem('token')
 
       const res = await axios.post(

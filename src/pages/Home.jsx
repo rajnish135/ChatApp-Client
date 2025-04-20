@@ -14,11 +14,11 @@ const Home = () => {
   const location = useLocation();
 
   useEffect(() => {
-  const token = localStorage.getItem('token')
+    
       const socketConnection = io(`${import.meta.env.VITE_BACKEND_URL}/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        auth: {
+          token: localStorage.getItem('token') || '',
+        },
     });
 
     dispatch(setSocketConnection(socketConnection));

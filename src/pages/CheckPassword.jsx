@@ -36,17 +36,13 @@ const CheckPassword = () => {
 
     e.preventDefault();
     try {
-
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/password`,
         { password, user_id: location?.state?.data?._id },
         {
-           headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
+          withCredentials: true,
         }
       );
-
       console.log("res in check password ", res)
       toast.success("User Password verified successfully!");
 

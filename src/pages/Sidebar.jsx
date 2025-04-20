@@ -68,13 +68,7 @@ const Sidebar = () => {
   }, [socketConnection, user]);
 
   const handleLogout = async () => {
-
-    await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/logout`, {
-     headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
-
+    await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/logout`, { withCredentials: true });
     dispatch(logout());
     navigate('/email');
     localStorage.clear();

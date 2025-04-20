@@ -29,14 +29,11 @@ const CheckEmail = () => {
 
     try {
       console.log("backend api", import.meta.VITE_BACKEND_URL)
-
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/email`,
         formData,
         {
-             headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
+          withCredentials: true,
         }
       );
 

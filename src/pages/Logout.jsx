@@ -13,8 +13,10 @@ const Logout = () => {
       try {
 
         await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/logout`,
-          {},
-          { withCredentials: true }
+          {  headers: {
+            Authorization: `Bearer ${token}`,
+          }, 
+        }
         );
 
         navigate('/email');

@@ -40,7 +40,9 @@ const CheckPassword = () => {
         `${import.meta.env.VITE_BACKEND_URL}/api/password`,
         { password, user_id: location?.state?.data?._id },
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       console.log("res in check password ", res)

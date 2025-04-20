@@ -18,7 +18,9 @@ const Home = () => {
       auth: {
         token: localStorage.getItem('token'),
       },
-      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     dispatch(setSocketConnection(socketConnection));

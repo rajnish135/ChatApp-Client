@@ -1,3 +1,4 @@
+
 import React, { useRef, useState } from 'react';
 import Avatar from '../components/Avatar';
 import axios from 'axios';
@@ -53,7 +54,9 @@ const EditUserDetails = ({ onClose, user }) => {
         `${import.meta.env.VITE_BACKEND_URL}/api/update-user`,
         formData,
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -117,13 +120,13 @@ const EditUserDetails = ({ onClose, user }) => {
             <button
               type='button'
               onClick={onClose}
-              className='border-primary border text-primary px-4 py-1 rounded hover:bg-primary hover:text-white'
+              className='border-primary border text-primary px-4 py-1 rounded text-black bg-green-400 hover:bg-green-500 hover:text-white'
             >
               Cancel
             </button>
             <button
               type='submit'
-              className='border-primary bg-primary text-white border px-4 py-1 rounded hover:bg-secondary'
+              className='border-primary bg-primary border px-4 py-1 rounded  text-black bg-green-400 hover:bg-green-500 hover:text-white'
             >
               Save
             </button>

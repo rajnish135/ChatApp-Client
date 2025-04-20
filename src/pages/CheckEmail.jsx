@@ -33,7 +33,9 @@ const CheckEmail = () => {
         `${import.meta.env.VITE_BACKEND_URL}/api/email`,
         formData,
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
